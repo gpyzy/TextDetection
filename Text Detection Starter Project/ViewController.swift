@@ -15,10 +15,12 @@ class ViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     var session = AVCaptureSession()
     var requests = [VNRequest]()
+    var textRecorgnition: TextRecorgnition?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.textRecorgnition = TextRecorgnition()
         startLiveVideo()
         startTextDetection()
     }
@@ -176,10 +178,12 @@ extension ViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         
         if let outputImage = CaptureManager.shared.getImageFromSampleBuffer(sampleBuffer: sampleBuffer) {
             
+            DispatchQueue.main.async { // Correct
             // The following codes allows imageView display images continiously as if it is a streaming video
-//            DispatchQueue.main.async { // Correct
-//                self.imageView.image = outputImage
-//            }
+            // self.imageView.image = outputImage
+                
+                self.textRecorgnition?.doOCR(ciImage: outputImage.ciImage!)
+            }
         }
     }
 }
