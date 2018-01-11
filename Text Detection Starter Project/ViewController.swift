@@ -13,9 +13,10 @@ import Vision
 class ViewController: UIViewController {
     
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet var wordsletter:UILabel!
     var session = AVCaptureSession()
     var requests = [VNRequest]()
-    var textRecorgnition: TextRecorgnition?
+    var textRecorgnition: TextRecorgnition!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -176,13 +177,16 @@ extension ViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             print(error)
         }
         
-        if let outputImage = CaptureManager.shared.getImageFromSampleBuffer(sampleBuffer: sampleBuffer) {
+        if let outputImage = CaptureManager.shared.getCIImageFromSampleBuffer(sampleBuffer: sampleBuffer) {
             
             DispatchQueue.main.async { // Correct
             // The following codes allows imageView display images continiously as if it is a streaming video
             // self.imageView.image = outputImage
                 
-                self.textRecorgnition?.doOCR(ciImage: outputImage.ciImage!)
+            self.textRecorgnition?.doOCR(ciImage: outputImage)
+                //if( self.textRecorgnition.recognizedWords.count > 0 ){
+                    //self.wordsletter.text = self.textRecorgnition.recognizedWords.joined()
+               // }
             }
         }
     }

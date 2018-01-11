@@ -127,8 +127,10 @@ class TextRecorgnition {
         
     }
     
+    let lock = 10
     func doOCR(ciImage:CIImage)
     {
+        objc_sync_enter(lock)
         //PREPARE THE HANDLER
         let handler = VNImageRequestHandler(ciImage: ciImage, options:[:])
         
@@ -144,6 +146,8 @@ class TextRecorgnition {
                 print ("Error")
             }
         }
+        objc_sync_exit(lock)
+
         
     }
 }

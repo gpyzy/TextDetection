@@ -42,7 +42,7 @@ class CaptureManager: NSObject {
 //        session?.stopRunning()
 //    }
     
-    func getImageFromSampleBuffer(sampleBuffer: CMSampleBuffer) ->UIImage? {
+    func getCGImageFromSampleBuffer(sampleBuffer: CMSampleBuffer) ->CGImage? {
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             return nil
         }
@@ -59,8 +59,24 @@ class CaptureManager: NSObject {
         guard let cgImage = context.makeImage() else {
             return nil
         }
-        let image = UIImage(cgImage: cgImage, scale: 1, orientation:.right)
         CVPixelBufferUnlockBaseAddress(pixelBuffer, .readOnly)
+        return cgImage
+    }
+    
+    func getUIImageFromSampleBuffer(sampleBuffer: CMSampleBuffer) ->UIImage? {
+        guard let cgImage = getCGImageFromSampleBuffer(sampleBuffer: sampleBuffer) else {
+            return nil
+        }
+        let image = UIImage(cgImage: cgImage, scale: 1, orientation:.right)
+        return image
+    }
+    
+    func getCIImageFromSampleBuffer(sampleBuffer: CMSampleBuffer) ->CIImage? {
+        guard let cgImage = getCGImageFromSampleBuffer(sampleBuffer: sampleBuffer) else {
+            return nil
+        }
+        
+        let image = CIImage(cgImage: cgImage).oriented(CGImagePropertyOrientation.right)
         return image
     }
 }
