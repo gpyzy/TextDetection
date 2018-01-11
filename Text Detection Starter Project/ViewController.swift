@@ -50,6 +50,18 @@ class ViewController: UIViewController {
         imageLayer.frame = imageView.bounds
         imageView.layer.addSublayer(imageLayer)
         
+        //4 CaptureManager related
+        //setup input
+//        let device =  AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
+//        let input = try! AVCaptureDeviceInput(device: device!)
+//        session.addInput(input)
+//
+//        //setup output
+//        let output = AVCaptureVideoDataOutput()
+//        output.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable as! String: kCVPixelFormatType_32BGRA]
+//        output.setSampleBufferDelegate(self, queue: DispatchQueue.main)
+//        session.addOutput(output)
+        
         session.startRunning()
     }
     
@@ -160,6 +172,14 @@ extension ViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             try imageRequestHandler.perform(self.requests)
         } catch {
             print(error)
+        }
+        
+        if let outputImage = CaptureManager.shared.getImageFromSampleBuffer(sampleBuffer: sampleBuffer) {
+            
+            // The following codes allows imageView display images continiously as if it is a streaming video
+//            DispatchQueue.main.async { // Correct
+//                self.imageView.image = outputImage
+//            }
         }
     }
 }

@@ -1,46 +1,46 @@
 import UIKit
 import AVFoundation
 
-// TODO - move this logic into ViewController
+// Done - move this logic into ViewController
 //extension ViewController: CaptureManagerDelegate {
 //    func processCapturedImage(image: UIImage) {
 //        self.imageView.image = image
 //    }
 //}
 
-protocol CaptureManagerDelegate: class {
-    func processCapturedImage(image: UIImage)
-}
+//protocol CaptureManagerDelegate: class {
+//     func processCapturedImage(image: UIImage)
+// }
 
 
 class CaptureManager: NSObject {
     internal static let shared = CaptureManager()
-    weak var delegate: CaptureManagerDelegate?
-    var session: AVCaptureSession?
+    //weak var delegate: CaptureManagerDelegate?
+    //var session: AVCaptureSession?
     
     override init() {
         super.init()
-        session = AVCaptureSession()
-        
-        //setup input
-        let device =  AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
-        let input = try! AVCaptureDeviceInput(device: device!)
-        session?.addInput(input)
-        
-        //setup output
-        let output = AVCaptureVideoDataOutput()
-        output.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable as! String: kCVPixelFormatType_32BGRA]
-        output.setSampleBufferDelegate(self, queue: DispatchQueue.main)
-        session?.addOutput(output)
+//        session = AVCaptureSession()
+//
+//        //setup input
+//        let device =  AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
+//        let input = try! AVCaptureDeviceInput(device: device!)
+//        session?.addInput(input)
+//
+//        //setup output
+//        let output = AVCaptureVideoDataOutput()
+//        output.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable as! String: kCVPixelFormatType_32BGRA]
+//        output.setSampleBufferDelegate(self, queue: DispatchQueue.main)
+//        session?.addOutput(output)
     }
     
-    func statSession() {
-        session?.startRunning()
-    }
-    
-    func stopSession() {
-        session?.stopRunning()
-    }
+//    func statSession() {
+//        session?.startRunning()
+//    }
+//
+//    func stopSession() {
+//        session?.stopRunning()
+//    }
     
     func getImageFromSampleBuffer(sampleBuffer: CMSampleBuffer) ->UIImage? {
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
@@ -65,11 +65,13 @@ class CaptureManager: NSObject {
     }
 }
 
-extension CaptureManager: AVCaptureVideoDataOutputSampleBufferDelegate {
-    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        guard let outputImage = getImageFromSampleBuffer(sampleBuffer: sampleBuffer) else {
-            return
-        }
-        delegate?.processCapturedImage(image: outputImage)
-    }
-}
+/// Done - moved this logic go ViewController
+//extension CaptureManager: AVCaptureVideoDataOutputSampleBufferDelegate {
+//    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+//        guard let outputImage = getImageFromSampleBuffer(sampleBuffer: sampleBuffer) else {
+//            return
+//        }
+//        delegate?.processCapturedImage(image: outputImage)
+//    }
+//}
+
