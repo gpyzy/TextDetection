@@ -14,6 +14,7 @@
 		8B0D6B091EFA582B00544F3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B0D6B071EFA582B00544F3D /* LaunchScreen.storyboard */; };
 		F0F543BA2007C17F009D1F2D /* TextRecorgnition.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F543B92007C17F009D1F2D /* TextRecorgnition.swift */; };
 		F0F543BE2007C3CF009D1F2D /* OCR.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = F0F543BD2007C3CF009D1F2D /* OCR.mlmodel */; };
+		F0F543C02007C5E2009D1F2D /* CaptureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F543BF2007C5E2009D1F2D /* CaptureManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		8B0D6B0A1EFA582C00544F3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F0F543B92007C17F009D1F2D /* TextRecorgnition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextRecorgnition.swift; sourceTree = "<group>"; };
 		F0F543BD2007C3CF009D1F2D /* OCR.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = OCR.mlmodel; sourceTree = "<group>"; };
+		F0F543BF2007C5E2009D1F2D /* CaptureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				8B0D6B071EFA582B00544F3D /* LaunchScreen.storyboard */,
 				8B0D6B0A1EFA582C00544F3D /* Info.plist */,
 				F0F543B92007C17F009D1F2D /* TextRecorgnition.swift */,
+				F0F543BF2007C5E2009D1F2D /* CaptureManager.swift */,
 			);
 			path = "Text Detection Starter Project";
 			sourceTree = "<group>";
@@ -145,6 +148,7 @@
 				F0F543BA2007C17F009D1F2D /* TextRecorgnition.swift in Sources */,
 				8B0D6AFF1EFA582B00544F3D /* AppDelegate.swift in Sources */,
 				F0F543BE2007C3CF009D1F2D /* OCR.mlmodel in Sources */,
+				F0F543C02007C5E2009D1F2D /* CaptureManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
