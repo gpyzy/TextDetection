@@ -12,6 +12,8 @@
 		8B0D6B041EFA582B00544F3D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B0D6B021EFA582B00544F3D /* Main.storyboard */; };
 		8B0D6B061EFA582B00544F3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B0D6B051EFA582B00544F3D /* Assets.xcassets */; };
 		8B0D6B091EFA582B00544F3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B0D6B071EFA582B00544F3D /* LaunchScreen.storyboard */; };
+		F0F543BA2007C17F009D1F2D /* TextRecorgnition.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F543B92007C17F009D1F2D /* TextRecorgnition.swift */; };
+		F0F543BE2007C3CF009D1F2D /* OCR.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = F0F543BD2007C3CF009D1F2D /* OCR.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		8B0D6B051EFA582B00544F3D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8B0D6B081EFA582B00544F3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8B0D6B0A1EFA582C00544F3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F0F543B92007C17F009D1F2D /* TextRecorgnition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextRecorgnition.swift; sourceTree = "<group>"; };
+		F0F543BD2007C3CF009D1F2D /* OCR.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = OCR.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,12 +58,14 @@
 		8B0D6AFD1EFA582B00544F3D /* Text Detection Starter Project */ = {
 			isa = PBXGroup;
 			children = (
+				F0F543BD2007C3CF009D1F2D /* OCR.mlmodel */,
 				8B0D6AFE1EFA582B00544F3D /* AppDelegate.swift */,
 				8B0D6B001EFA582B00544F3D /* ViewController.swift */,
 				8B0D6B021EFA582B00544F3D /* Main.storyboard */,
 				8B0D6B051EFA582B00544F3D /* Assets.xcassets */,
 				8B0D6B071EFA582B00544F3D /* LaunchScreen.storyboard */,
 				8B0D6B0A1EFA582C00544F3D /* Info.plist */,
+				F0F543B92007C17F009D1F2D /* TextRecorgnition.swift */,
 			);
 			path = "Text Detection Starter Project";
 			sourceTree = "<group>";
@@ -136,7 +142,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B0D6B011EFA582B00544F3D /* ViewController.swift in Sources */,
+				F0F543BA2007C17F009D1F2D /* TextRecorgnition.swift in Sources */,
 				8B0D6AFF1EFA582B00544F3D /* AppDelegate.swift in Sources */,
+				F0F543BE2007C3CF009D1F2D /* OCR.mlmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
