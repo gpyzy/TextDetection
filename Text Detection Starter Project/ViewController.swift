@@ -11,7 +11,8 @@ import AVFoundation
 import Vision
 
 class ViewController: UIViewController {
-    
+    var i = 0;
+
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet var wordsletter:UILabel!
     var session = AVCaptureSession()
@@ -140,6 +141,10 @@ class ViewController: UIViewController {
         outline.borderColor = UIColor.red.cgColor
         
         imageView.layer.addSublayer(outline)
+        
+        // TODO - does it work here?
+        self.textRecorgnition?.doOCR()
+        
     }
     
     func highlightLetters(box: VNRectangleObservation) {
@@ -156,8 +161,8 @@ class ViewController: UIViewController {
         imageView.layer.addSublayer(outline)
     }
 }
-
 extension ViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
+
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             return
@@ -177,17 +182,20 @@ extension ViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             print(error)
         }
         
+        /// capture image
         if let outputImage = CaptureManager.shared.getCIImageFromSampleBuffer(sampleBuffer: sampleBuffer) {
-            
-            DispatchQueue.main.async { // Correct
+            self.textRecorgnition.inputImage = outputImage
+            // DispatchQueue.main.async { // Correct
             // The following codes allows imageView display images continiously as if it is a streaming video
             // self.imageView.image = outputImage
+        
                 
-            self.textRecorgnition?.doOCR(ciImage: outputImage)
+                
+                //self.textRecorgnition?.doOCR(ciImage: outputImage)
                 //if( self.textRecorgnition.recognizedWords.count > 0 ){
                     //self.wordsletter.text = self.textRecorgnition.recognizedWords.joined()
                // }
-            }
+            // }
         }
     }
 }

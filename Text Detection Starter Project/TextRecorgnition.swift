@@ -21,6 +21,7 @@ class TextRecorgnition {
     //RESULT FROM RECOGNITION
     var recognizedRegion:String = String()
     
+   // var lock = NSLock()
     
     //OCR-REQUEST
     lazy var ocrRequest: VNCoreMLRequest = {
@@ -40,7 +41,7 @@ class TextRecorgnition {
             else {fatalError("unexpected result") }
         guard let best = observations.first
             else { fatalError("cant get best result")}
-        
+        //print( best.identifier)
         self.recognizedRegion = self.recognizedRegion.appending(best.identifier)
     }
     
@@ -52,6 +53,7 @@ class TextRecorgnition {
     //TEXT-DETECTION-HANDLER
     func handleDetection(request:VNRequest, error: Error?)
     {
+     //   lock.lock()
         guard let observations = request.results as? [VNTextObservation]
             else {fatalError("unexpected result") }
         
@@ -108,16 +110,19 @@ class TextRecorgnition {
                     try handler.perform([self.ocrRequest])
                 }  catch { print("Error")}
                 
+            
             }
             
             //APPEND RECOGNIZED CHARS FOR THAT REGION
-            self.recognizedWords.append(recognizedRegion)
+          //  self.recognizedWords.append(recognizedRegion)
         }
-        
+        print(recognizedRegion)
         //THATS WHAT WE WANT - PRINT WORDS TO CONSOLE
-        DispatchQueue.main.async {
-            self.PrintWords(words: self.recognizedWords)
-        }
+//        DispatchQueue.main.async {
+//            self.PrintWords(words: self.recognizedWords)
+//        }
+        
+       // lock.unlock()
     }
     
     func PrintWords(words:[String])
@@ -127,12 +132,10 @@ class TextRecorgnition {
         
     }
     
-    let lock = 10
-    func doOCR(ciImage:CIImage)
+    func doOCR()
     {
-        objc_sync_enter(lock)
         //PREPARE THE HANDLER
-        let handler = VNImageRequestHandler(ciImage: ciImage, options:[:])
+        let handler = VNImageRequestHandler(ciImage: self.inputImage!, options:[:])
         
         //WE NEED A BOX FOR EACH DETECTED CHARACTER
         self.textDetectionRequest.reportCharacterBoxes = true
@@ -146,8 +149,6 @@ class TextRecorgnition {
                 print ("Error")
             }
         }
-        objc_sync_exit(lock)
-
         
     }
 }
