@@ -77,6 +77,8 @@ class ViewController: UIViewController {
         let textRequest = VNDetectTextRectanglesRequest(completionHandler: self.detectTextHandler)
         textRequest.reportCharacterBoxes = true
         
+        self.textRecorgnition.textDetectionRequest.reportCharacterBoxes = true
+        self.textRecorgnition.textDetectionRequest.preferBackgroundProcessing = false
         
         self.requests = [textRequest, self.textRecorgnition.textDetectionRequest]
     }

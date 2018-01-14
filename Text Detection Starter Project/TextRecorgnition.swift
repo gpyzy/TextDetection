@@ -16,10 +16,10 @@ class TextRecorgnition {
     var  inputImage:CIImage?
     
     //RESULT FROM OVERALL RECOGNITION
-    var  recognizedWords:[String] = [String]()
+    //var  recognizedWords:[String] = [String]()
     
     //RESULT FROM RECOGNITION
-    var recognizedRegion:String = String()
+    //var recognizedRegion:String = String()
     
    // var lock = NSLock()
     
@@ -41,8 +41,8 @@ class TextRecorgnition {
             else {fatalError("unexpected result") }
         guard let best = observations.first
             else { fatalError("cant get best result")}
-        //print( best.identifier)
-        self.recognizedRegion = self.recognizedRegion.appending(best.identifier)
+        print(best.identifier)
+        //self.recognizedRegion = self.recognizedRegion.appending(best.identifier)
     }
     
     //TEXT-DETECTION-REQUEST
@@ -58,7 +58,7 @@ class TextRecorgnition {
             else {fatalError("unexpected result") }
         
         // EMPTY THE RESULTS
-        self.recognizedWords = [String]()
+        //self.recognizedWords = [String]()
         
         //NEEDED BECAUSE OF DIFFERENT SCALES
         let  transform = CGAffineTransform.identity.scaledBy(x: (self.inputImage?.extent.size.width)!, y:  (self.inputImage?.extent.size.height)!)
@@ -71,7 +71,7 @@ class TextRecorgnition {
             }
             
             //EMPTY THE RESULT FOR REGION
-            self.recognizedRegion = ""
+            //self.recognizedRegion = ""
             
             //A "BOX" IS THE POSITION IN THE ORIGINAL IMAGE (SCALED FROM 0... 1.0)
             for box in boxesIn
@@ -116,7 +116,7 @@ class TextRecorgnition {
             //APPEND RECOGNIZED CHARS FOR THAT REGION
           //  self.recognizedWords.append(recognizedRegion)
         }
-        print(recognizedRegion)
+        //print(recognizedRegion)
         //THATS WHAT WE WANT - PRINT WORDS TO CONSOLE
 //        DispatchQueue.main.async {
 //            self.PrintWords(words: self.recognizedWords)
@@ -128,7 +128,7 @@ class TextRecorgnition {
     func PrintWords(words:[String])
     {
         // VOILA'
-        print(recognizedWords)
+        print(words)
         
     }
     
