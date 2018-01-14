@@ -143,7 +143,7 @@ class ViewController: UIViewController {
         imageView.layer.addSublayer(outline)
         
         // TODO - does it work here?
-        self.textRecorgnition?.doOCR()
+       // self.textRecorgnition?.doOCR()
         
     }
     
@@ -164,38 +164,27 @@ class ViewController: UIViewController {
 extension ViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
 
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
-            return
-        }
-        
-        var requestOptions:[VNImageOption : Any] = [:]
-        
-        if let camData = CMGetAttachment(sampleBuffer, kCMSampleBufferAttachmentKey_CameraIntrinsicMatrix, nil) {
-            requestOptions = [.cameraIntrinsics:camData]
-        }
-        
-        let imageRequestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, orientation: CGImagePropertyOrientation(rawValue: 6)!, options: requestOptions)
-        
-        do {
-            try imageRequestHandler.perform(self.requests)
-        } catch {
-            print(error)
-        }
-        
+    
         /// capture image
-        if let outputImage = CaptureManager.shared.getCIImageFromSampleBuffer(sampleBuffer: sampleBuffer) {
-            self.textRecorgnition.inputImage = outputImage
-            // DispatchQueue.main.async { // Correct
-            // The following codes allows imageView display images continiously as if it is a streaming video
-            // self.imageView.image = outputImage
-        
-                
-                
-                //self.textRecorgnition?.doOCR(ciImage: outputImage)
-                //if( self.textRecorgnition.recognizedWords.count > 0 ){
-                    //self.wordsletter.text = self.textRecorgnition.recognizedWords.joined()
-               // }
-            // }
+        if let outputImage = CaptureManager.shared.getCGImageFromSampleBuffer(sampleBuffer: sampleBuffer) {
+            // self.textRecorgnition.inputImage = outputImage
+            var requestOptions:[VNImageOption : Any] = [:]
+            
+            if let camData = CMGetAttachment(sampleBuffer, kCMSampleBufferAttachmentKey_CameraIntrinsicMatrix, nil) {
+                requestOptions = [.cameraIntrinsics:camData]
+            }
+            
+            let imageRequestHandler = VNImageRequestHandler(cgImage: outputImage, orientation: .right, options: requestOptions)
+            
+            do {
+                try imageRequestHandler.perform(self.requests)
+            } catch {
+                print(error)
+            }
         }
+        
+        
+        
+        
     }
 }

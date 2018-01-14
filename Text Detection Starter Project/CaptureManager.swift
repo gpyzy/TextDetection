@@ -76,7 +76,7 @@ class CaptureManager: NSObject {
             return nil
         }
         
-        let image = CIImage(cgImage: cgImage).oriented(CGImagePropertyOrientation.right)
+        let image = CIImage(cgImage: cgImage) //.oriented(CGImagePropertyOrientation.right)
         return image
     }
 }
