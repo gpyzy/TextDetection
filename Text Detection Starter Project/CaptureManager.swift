@@ -67,7 +67,9 @@ class CaptureManager: NSObject {
         guard let cgImage = getCGImageFromSampleBuffer(sampleBuffer: sampleBuffer) else {
             return nil
         }
-        let image = UIImage(cgImage: cgImage, scale: 1, orientation:.right)
+        // let image = UIImage(cgImage: cgImage, scale: 1, orientation:.right)
+        let image = UIImage(cgImage: cgImage)
+
         return image
     }
     

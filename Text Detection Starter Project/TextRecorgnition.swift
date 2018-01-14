@@ -19,9 +19,9 @@ class TextRecorgnition {
     //var  recognizedWords:[String] = [String]()
     
     //RESULT FROM RECOGNITION
-    //var recognizedRegion:String = String()
+    var recognizedRegion:String = String()
     
-   // var lock = NSLock()
+   //var lock = NSLock()
     
     //OCR-REQUEST
     lazy var ocrRequest: VNCoreMLRequest = {
@@ -41,8 +41,7 @@ class TextRecorgnition {
             else {fatalError("unexpected result") }
         guard let best = observations.first
             else { fatalError("cant get best result")}
-        print(best.identifier)
-        //self.recognizedRegion = self.recognizedRegion.appending(best.identifier)
+        self.recognizedRegion = self.recognizedRegion.appending(best.identifier)
     }
     
     //TEXT-DETECTION-REQUEST
@@ -53,7 +52,14 @@ class TextRecorgnition {
     //TEXT-DETECTION-HANDLER
     func handleDetection(request:VNRequest, error: Error?)
     {
+        
+        if(self.inputImage == nil) {
+            return
+        }
      //   lock.lock()
+        //objc_sync_enter(self.inputImage!)
+        self.inputImage = self.inputImage?.oriented(.right)
+        
         guard let observations = request.results as? [VNTextObservation]
             else {fatalError("unexpected result") }
         
@@ -71,7 +77,7 @@ class TextRecorgnition {
             }
             
             //EMPTY THE RESULT FOR REGION
-            //self.recognizedRegion = ""
+            self.recognizedRegion = ""
             
             //A "BOX" IS THE POSITION IN THE ORIGINAL IMAGE (SCALED FROM 0... 1.0)
             for box in boxesIn
@@ -90,7 +96,7 @@ class TextRecorgnition {
                 let bottomright = box.bottomRight.applying(transform)
                 
                 //LET'S CROP AND RECTIFY
-                let charImage = inputImage?
+                let charImage = inputImage!
                     .cropped(to: realBoundingBox)
                     .applyingFilter("CIPerspectiveCorrection", parameters: [
                         "inputTopLeft" : CIVector(cgPoint: topleft),
@@ -100,7 +106,7 @@ class TextRecorgnition {
                         ])
                 
                 //PREPARE THE HANDLER
-                let handler = VNImageRequestHandler(ciImage: charImage!, options: [:])
+                let handler = VNImageRequestHandler(ciImage: charImage, options: [:])
                 
                 //SOME OPTIONS (TO PLAY WITH..)
                 self.ocrRequest.imageCropAndScaleOption = VNImageCropAndScaleOption.scaleFill
@@ -115,6 +121,7 @@ class TextRecorgnition {
             
             //APPEND RECOGNIZED CHARS FOR THAT REGION
           //  self.recognizedWords.append(recognizedRegion)
+            print(recognizedRegion)
         }
         //print(recognizedRegion)
         //THATS WHAT WE WANT - PRINT WORDS TO CONSOLE
@@ -123,6 +130,7 @@ class TextRecorgnition {
 //        }
         
        // lock.unlock()
+        //objc_sync_exit(self.inputImage!)
     }
     
     func PrintWords(words:[String])
@@ -132,23 +140,23 @@ class TextRecorgnition {
         
     }
     
-    func doOCR()
-    {
-        //PREPARE THE HANDLER
-        let handler = VNImageRequestHandler(ciImage: self.inputImage!, options:[:])
-        
-        //WE NEED A BOX FOR EACH DETECTED CHARACTER
-        self.textDetectionRequest.reportCharacterBoxes = true
-        self.textDetectionRequest.preferBackgroundProcessing = false
-        
-        //FEED IT TO THE QUEUE FOR TEXT-DETECTION
-        DispatchQueue.global(qos: .userInteractive).async {
-            do {
-                try  handler.perform([self.textDetectionRequest])
-            } catch {
-                print ("Error")
-            }
-        }
-        
-    }
+//    func doOCR()
+//    {
+//        //PREPARE THE HANDLER
+//        let handler = VNImageRequestHandler(ciImage: self.inputImage!, options:[:])
+//
+//        //WE NEED A BOX FOR EACH DETECTED CHARACTER
+//        self.textDetectionRequest.reportCharacterBoxes = true
+//        self.textDetectionRequest.preferBackgroundProcessing = false
+//
+//        //FEED IT TO THE QUEUE FOR TEXT-DETECTION
+//        DispatchQueue.global(qos: .userInteractive).async {
+//            do {
+//                try  handler.perform([self.textDetectionRequest])
+//            } catch {
+//                print ("Error")
+//            }
+//        }
+//
+//    }
 }
