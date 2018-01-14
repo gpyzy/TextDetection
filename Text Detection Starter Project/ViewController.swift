@@ -76,7 +76,9 @@ class ViewController: UIViewController {
     func startTextDetection() {
         let textRequest = VNDetectTextRectanglesRequest(completionHandler: self.detectTextHandler)
         textRequest.reportCharacterBoxes = true
-        self.requests = [textRequest]
+        
+        
+        self.requests = [textRequest, self.textRecorgnition.textDetectionRequest]
     }
     
     func detectTextHandler(request: VNRequest, error: Error?) {
@@ -162,19 +164,18 @@ class ViewController: UIViewController {
     }
 }
 extension ViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
-
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
     
         /// capture image
-        if let outputImage = CaptureManager.shared.getCGImageFromSampleBuffer(sampleBuffer: sampleBuffer) {
-            // self.textRecorgnition.inputImage = outputImage
+        if let outputImage = CaptureManager.shared.getCIImageFromSampleBuffer(sampleBuffer: sampleBuffer) {
+            self.textRecorgnition.inputImage = outputImage
             var requestOptions:[VNImageOption : Any] = [:]
             
             if let camData = CMGetAttachment(sampleBuffer, kCMSampleBufferAttachmentKey_CameraIntrinsicMatrix, nil) {
                 requestOptions = [.cameraIntrinsics:camData]
             }
             
-            let imageRequestHandler = VNImageRequestHandler(cgImage: outputImage, orientation: .right, options: requestOptions)
+            let imageRequestHandler = VNImageRequestHandler(ciImage: outputImage, orientation: .right, options: requestOptions)
             
             do {
                 try imageRequestHandler.perform(self.requests)
@@ -182,9 +183,5 @@ extension ViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
                 print(error)
             }
         }
-        
-        
-        
-        
     }
 }
